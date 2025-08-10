@@ -1,0 +1,684 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>¡Vamos! — Spanish ⇄ Arabic (High Contrast)</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* High-contrast light theme */
+    --bg:#f4f7ff;         /* page background */
+    --panel:#eef2ff;      /* header / soft surfaces */
+    --card:#ffffff;       /* cards */
+    --ink:#0b1220;        /* main text */
+    --muted:#45506b;      /* secondary text */
+    --line:rgba(11,18,32,.12); /* borders */
+    --accent:#c026d3;     /* magenta accent */
+    --accent2:#2563eb;    /* blue accent */
+    --good:#16a34a; --warn:#d97706;
+    --radius:16px; --shadow:0 10px 28px rgba(8,12,20,.08)
+  }
+  *{box-sizing:border-box} html,body{height:100%}
+  body{
+    margin:0;
+    font-family:Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    background:
+      radial-gradient(1200px 640px at 80% -10%, #e7ecff 0%, var(--bg) 60%) fixed;
+  }
+  header{
+    position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:14px clamp(16px,4vw,40px);
+    background:linear-gradient(180deg, rgba(238,242,255,.95), rgba(238,242,255,.7) 60%, rgba(238,242,255,0));
+    border-bottom:1px solid var(--line); backdrop-filter:blur(8px)
+  }
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;box-shadow:0 6px 16px rgba(37,99,235,.25);
+    background:conic-gradient(from 120deg,var(--accent),#e879f9,var(--accent2),#60a5fa,var(--accent))}
+  .logo svg{filter:drop-shadow(0 2px 6px rgba(0,0,0,.25))}
+  nav{display:flex;gap:8px;flex-wrap:wrap}
+  .tab{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700}
+  .tab.active{outline:2px solid rgba(37,99,235,.3)}
+  main{padding:22px clamp(16px,4vw,40px) 60px}
+  .panel{display:none}.panel.active{display:block}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(12,1fr)}
+  .card{
+    grid-column:span 12;background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)
+  }
+  @media(min-width:980px){.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-8{grid-column:span 8}}
+  h1{margin:0 0 8px;font-size:clamp(28px,4vw,38px)} h2{margin:0 0 10px;font-size:1.25rem}
+  .muted{color:var(--muted)} .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .button{
+    background:linear-gradient(135deg, rgba(37,99,235,.10), rgba(192,38,211,.10));
+    border:1px solid var(--line); color:var(--ink);
+    padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700
+  }
+  .button.primary{
+    background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;border:none;
+    box-shadow:0 10px 22px rgba(37,99,235,.25)
+  }
+  input,select,textarea{
+    width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);
+    font-size:16px
+  }
+  .badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-weight:700;background:#fff}
+  .good{background:#ecfdf5} .warn{background:#fff7ed} .bad{background:#fef2f2}
+  .pill{padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-weight:600;background:#fff}
+  .meter{height:12px;border-radius:999px;background:#e9eefb;overflow:hidden;border:1px solid var(--line)}
+  .meter>span{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+  .flip{display:grid;place-items:center;min-height:230px;border-radius:14px;border:1px dashed var(--line);background:#fbfdff;cursor:pointer;text-align:center}
+  .flip .big{font-size:1.8rem;font-weight:800}
+  .q{display:grid;gap:10px}
+  .options{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .opt{padding:14px;border-radius:12px;border:1px solid var(--line);cursor:pointer;background:#fff;font-size:1.05rem}
+  .opt.correct{outline:2px solid var(--good)} .opt.wrong{outline:2px solid #ef4444}
+  .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .kpi .tile{padding:12px;border-radius:12px;border:1px solid var(--line);background:#fff;text-align:center}
+  .heat{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .dot{height:14px;border-radius:4px;background:#e5eaf8;border:1px solid var(--line)}
+  .dot.on{background:linear-gradient(135deg,var(--accent2),var(--accent))}
+  .tts{font-size:.95rem}
+  .seg{display:grid;gap:8px}
+  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .table{width:100%;border-collapse:collapse}
+  .table th,.table td{border-bottom:1px solid var(--line);padding:10px;text-align:left;background:#fff}
+  /* Arabic helpers */
+  .ar{font-family:"Cairo","Segoe UI",Tahoma,Arial,sans-serif; direction:rtl; unicode-bidi:plaintext}
+  .ar.center{text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo" aria-hidden="true">
+      <svg width="26" height="26" viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="28" fill="#fff" stroke="#2563eb" stroke-width="3"/>
+        <path d="M18 36c6-10 22-10 28 0" stroke="#c026d3" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="26" cy="26" r="3" fill="#c026d3"/><circle cx="38" cy="26" r="3" fill="#2563eb"/>
+      </svg>
+    </div>
+    <div>
+      ¡Vamos! <small style="display:block;color:var(--muted);font-weight:600">Spanish ⇄ Arabic Coach</small>
+    </div>
+  </div>
+  <nav>
+    <button class="tab active" data-tab="learn">Learn</button>
+    <button class="tab" data-tab="flash">Flashcards</button>
+    <button class="tab" data-tab="quiz">Quiz</button>
+    <button class="tab" data-tab="verbs">Verbs</button>
+    <button class="tab" data-tab="speak">Speak</button>
+    <button class="tab" data-tab="progress">Progress</button>
+    <button class="tab" data-tab="settings">Settings</button>
+  </nav>
+</header>
+
+<main>
+  <!-- LEARN -->
+  <section id="learn" class="panel active">
+    <div class="grid">
+      <div class="card span-8">
+        <h1>Daily Goal</h1>
+        <div class="row" style="justify-content:space-between">
+          <div style="min-width:280px">
+            <div class="muted">XP today: <span id="xpToday">0</span>/<span id="xpGoal">20</span></div>
+            <div class="meter" style="margin-top:6px"><span id="xpBar" style="width:0%"></span></div>
+          </div>
+          <div class="row">
+            <span class="badge good">Streak: <span id="streak">0</span> 🔥</span>
+            <span class="badge">Level <span id="level">1</span></span>
+            <span class="badge warn">Total XP: <span id="xpTotal">0</span></span>
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <select id="deckFilter" style="max-width:260px"></select>
+          <button class="button primary" id="btnStudy">Study 5 new words (+10 XP)</button>
+          <button class="button" id="btnPractice">Quick practice (+5 XP)</button>
+        </div>
+      </div>
+      <div class="card span-4">
+        <h2>Today’s Focus</h2>
+        <div class="list" id="todayList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section id="flash" class="panel">
+    <div class="grid">
+      <div class="card span-6">
+        <div class="row" style="justify-content:space-between"><h2>Flashcards</h2>
+          <div class="tts"><button class="button" id="speakCard">🔊 Spanish audio</button></div>
+        </div>
+        <div id="flashWrap" class="flip" tabindex="0" aria-label="Flashcard — click to flip">
+          <div id="flashText" class="big">Click to start</div>
+          <div class="muted" id="flashSub" style="margin-top:6px"></div>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="button" id="btnKnow">I knew it</button>
+          <button class="button" id="btnUnsure">Unsure</button>
+          <button class="button" id="btnNext">Next</button>
+        </div>
+        <div class="muted" style="margin-top:6px">Front = Spanish • Back = Arabic (RTL).</div>
+      </div>
+      <div class="card span-6">
+        <h2>Add your own</h2>
+        <label>Spanish (Español)</label><input id="cEs" placeholder="e.g., la mesa"/>
+        <label style="margin-top:6px">Arabic (العربية)</label><input id="cAr" class="ar" placeholder="الطاولة"/>
+        <label style="margin-top:6px">Hint</label><input id="cHint" placeholder="noun, feminine / اسم مؤنث"/>
+        <label style="margin-top:6px">Category</label>
+        <select id="cCat"><option>Everyday</option><option>Travel</option><option>Business</option><option>Medical</option></select>
+        <div class="row" style="margin-top:10px">
+          <button class="button primary" id="addCard">Add card</button>
+          <button class="button" id="exportCards">Export</button>
+          <label class="button" for="importCards" style="cursor:pointer">Import</label>
+          <input id="importCards" type="file" accept="application/json" style="display:none"/>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="panel">
+    <div class="grid">
+      <div class="card span-8">
+        <div class="row" style="justify-content:space-between"><h2>Multiple Choice</h2>
+          <button class="button" id="mcqSpeak">🔊 Read Spanish</button>
+        </div>
+        <div class="q" id="mcq"></div>
+      </div>
+      <div class="card span-4">
+        <h2>Type the answer</h2>
+        <div class="q" id="typing"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERB DRILLS -->
+  <section id="verbs" class="panel">
+    <div class="grid">
+      <div class="card span-8">
+        <h2>Conjugation Drills</h2>
+        <div class="grid2">
+          <div class="seg">
+            <label>Verb</label>
+            <select id="verbSel"></select>
+          </div>
+          <div class="seg">
+            <label>Tense</label>
+            <select id="tenseSel"><option value="pres">Present</option><option value="pret">Preterite</option><option value="fut">Future</option></select>
+          </div>
+        </div>
+        <table class="table" style="margin-top:8px">
+          <thead><tr><th>Pronoun</th><th>Answer</th><th>Check</th></tr></thead>
+          <tbody id="verbRows"></tbody>
+        </table>
+        <div class="row" style="margin-top:8px">
+          <button class="button primary" id="gradeVerb">Grade (+5 XP)</button>
+          <button class="button" id="clearVerb">Clear</button>
+          <button class="button" id="speakVerb">🔊 Read Forms</button>
+        </div>
+        <div class="muted" id="verbFeedback" style="margin-top:6px"></div>
+      </div>
+      <div class="card span-4">
+        <h2>Smart Review</h2>
+        <div class="muted">Wrong answers get queued here and appear more often in quizzes.</div>
+        <div id="weakList" class="list" style="margin-top:8px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPEAKING MODE -->
+  <section id="speak" class="panel">
+    <div class="grid">
+      <div class="card span-8">
+        <h2>Speaking Practice</h2>
+        <p class="muted">Hear a Spanish phrase, say it back, and we’ll score the similarity.</p>
+        <div class="row">
+          <button class="button" id="sayTarget">🔊 Play target</button>
+          <button class="button primary" id="recBtn">🎙 Start recording</button>
+          <span id="recStatus" class="badge warn" style="display:none">Listening…</span>
+        </div>
+        <div id="speakTarget" class="pill" style="margin-top:8px"></div>
+        <div id="speakHeard" class="pill" style="margin-top:8px"></div>
+        <div id="speakScore" class="muted" style="margin-top:6px"></div>
+      </div>
+      <div class="card span-4">
+        <h2>Tips</h2>
+        <ul class="muted">
+          <li>Roll your <b>r</b> (rápido).</li>
+          <li>Vowels are pure: a / e / i / o / u.</li>
+          <li>Stress often on the second-to-last syllable.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section id="progress" class="panel">
+    <div class="grid">
+      <div class="card span-8">
+        <h2>Overview</h2>
+        <div class="kpi">
+          <div class="tile"><div class="muted">Level</div><div style="font-size:1.8rem;font-weight:800" id="pLevel">1</div></div>
+          <div class="tile"><div class="muted">Total XP</div><div style="font-size:1.8rem;font-weight:800" id="pXP">0</div></div>
+          <div class="tile"><div class="muted">Cards learned</div><div style="font-size:1.8rem;font-weight:800" id="pCards">0</div></div>
+        </div>
+      </div>
+      <div class="card span-4">
+        <h2>Last 4 weeks</h2>
+        <div class="heat" id="heat"></div>
+        <div class="muted" style="margin-top:6px">Each square = you earned XP that day.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="settings" class="panel">
+    <div class="grid">
+      <div class="card span-6">
+        <h2>Daily goal</h2>
+        <label>XP goal</label><input id="goalInput" type="number" min="5" step="5"/>
+        <div class="row" style="margin-top:10px"><button class="button primary" id="saveGoal">Save</button></div>
+      </div>
+      <div class="card span-6">
+        <h2>Backup</h2>
+        <div class="row">
+          <button class="button" id="exportState">Export Progress</button>
+          <label class="button" for="importState" style="cursor:pointer">Import Progress</label>
+          <input id="importState" type="file" accept="application/json" style="display:none"/>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ========= Storage & Voices ========= */
+const KEY='vamos_state_es_ar_contrast_v1';
+let esVoice=null, arVoice=null;
+function pickVoices(){
+  const voices=window.speechSynthesis?.getVoices()||[];
+  esVoice = voices.find(v=>/spanish|es-ES|es_MX/i.test(v.name+v.lang)) || voices[0] || null;
+  arVoice = voices.find(v=>/arabic|ar-|ar_/i.test(v.name+v.lang)) || null; // optional
+}
+if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged = pickVoices; pickVoices(); }
+function speak(text, lang='es-ES', rate=1, voicePref=null){
+  if(!('speechSynthesis' in window)) return;
+  const u=new SpeechSynthesisUtterance(text); u.lang=lang; u.rate=rate;
+  if(voicePref==='ar' && arVoice) u.voice=arVoice; else if(esVoice) u.voice=esVoice;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+
+/* ========= Seed decks (Spanish ⇄ Arabic) ========= */
+const THEMES = {
+  Travel:[
+    ['hola','مرحباً','تحية'],
+    ['¿dónde está el baño?','أين الحمّام؟','سفر'],
+    ['la cuenta, por favor','الحساب من فضلك','مطعم'],
+    ['un billete a Madrid','تذكرة إلى مدريد','نقل'],
+    ['agua sin gas','ماء بدون غاز','مقهى'],
+    ['una mesa para dos','طاولة لشخصين','مطعم'],
+    ['izquierda','يسار','اتجاه'],
+    ['derecha','يمين','اتجاه'],
+  ],
+  Business:[
+    ['reunión','اجتماع','مؤنث'],
+    ['presupuesto','ميزانية',''],
+    ['plazo','موعد نهائي',''],
+    ['correo electrónico','بريد إلكتروني',''],
+    ['equipo','فريق',''],
+    ['presentación','عرض تقديمي',''],
+    ['contrato','عقد',''],
+    ['firma','توقيع',''],
+  ],
+  Everyday:[
+    ['gracias','شكراً',''],
+    ['por favor','من فضلك',''],
+    ['disculpa','عذراً','غير رسمي'],
+    ['me gusta','أُحب',''],
+    ['no entiendo','لا أفهم',''],
+    ['hoy','اليوم',''],
+    ['mañana','غداً',''],
+    ['¿cuánto cuesta?','بكم السعر؟','تسوق'],
+  ],
+  Medical:[
+    ['me duele la cabeza','رأسي يؤلمني','أعراض'],
+    ['farmacia','صيدلية',''],
+    ['alergia','حساسية',''],
+    ['emergencia','حالة طارئة',''],
+    ['estoy enfermo','أنا مريض','مذكّر/مؤنث: مريضة'],
+    ['dolor','ألم',''],
+    ['doctor','طبيب',''],
+    ['ambulancia','إسعاف',''],
+  ],
+};
+const seed = Object.entries(THEMES).flatMap(([cat,arr])=>arr.map(([es,ar,h])=>({
+  id:crypto.randomUUID(), es, ar, hint:h, cat, ef:2.5, interval:0, due:Date.now()
+})));
+
+/* ========= Load/Save ========= */
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) }catch{ return null } }
+function save(){ localStorage.setItem(KEY, JSON.stringify(state)) }
+
+/* ========= State ========= */
+let state = load() || {
+  profile:{level:1,xp:0,goal:20,streak:0,lastDay:null},
+  deck:[...seed],  // master deck
+  custom:[],
+  history:[],      // {date:'YYYY-MM-DD', xp:n}
+  weak:[],         // card ids answered wrong
+  weakVerbs:[]     // verb keys answered wrong
+};
+
+/* ========= Helpers ========= */
+const $=id=>document.getElementById(id);
+const todayStr=()=>new Date().toISOString().slice(0,10);
+function addXP(n){
+  const day=todayStr(); state.profile.xp+=n;
+  let h=state.history.find(x=>x.date===day); if(!h){h={date:day,xp:0};state.history.push(h)} h.xp+=n;
+  if(state.profile.lastDay!==day){
+    const y=new Date(); y.setDate(y.getDate()-1); const yStr=y.toISOString().slice(0,10);
+    state.profile.streak = (state.profile.lastDay===yStr)? state.profile.streak+1 : 1;
+    state.profile.lastDay = day;
+  }
+  state.profile.level = Math.max(1, Math.floor(state.profile.xp/100)+1);
+  save(); renderHeader(); renderProgress();
+}
+function pct(a,b){ return Math.min(100, Math.round((a/b)*100))||0 }
+function sample(arr,n){ const copy=[...arr]; const out=[]; while(out.length<n && copy.length){ out.push(copy.splice(Math.floor(Math.random()*copy.length),1)[0]) } return out; }
+
+/* ========= Navigation ========= */
+document.querySelectorAll('.tab').forEach(b=> b.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===b));
+  document.querySelectorAll('.panel').forEach(p=> p.classList.toggle('active', p.id===b.dataset.tab));
+}));
+
+/* ========= Header meters ========= */
+function renderHeader(){
+  const day=todayStr(); const goal=state.profile.goal;
+  const today=state.history.find(x=>x.date===day)?.xp||0;
+  $('xpGoal').textContent=goal; $('xpToday').textContent=today; $('xpTotal').textContent=state.profile.xp;
+  $('xpBar').style.width=pct(today,goal)+'%';
+  $('streak').textContent=state.profile.streak; $('level').textContent=state.profile.level;
+}
+renderHeader();
+
+/* ========= Learn ========= */
+const deckFilter=$('deckFilter');
+deckFilter.innerHTML = '<option value="All">All decks</option>' + Object.keys(THEMES).map(c=>`<option>${c}</option>`).join('');
+deckFilter.value='All';
+
+function pickToday(){
+  const cat=deckFilter.value;
+  const pool = state.deck.filter(c=> cat==='All' || c.cat===cat).sort((a,b)=>a.due-b.due);
+  const due = (state.weak.length? pool.filter(c=>state.weak.includes(c.id)).concat(pool):pool).slice(0,5);
+  $('todayList').innerHTML = due.map(c=>`<div class="row" style="justify-content:space-between">
+    <div><strong>${c.es}</strong> <span class="muted">— <span class="ar">${c.ar}</span></span></div>
+    <span class="pill">${c.cat}</span>
+  </div>`).join('');
+}
+deckFilter.addEventListener('change',()=>{ pickToday(); nextFlash(true) });
+$('btnStudy').addEventListener('click',()=>{ addXP(10); nextFlash(true) });
+$('btnPractice').addEventListener('click',()=>{ addXP(5); renderMCQ(); renderTyping() });
+pickToday();
+
+/* ========= Flashcards (SM-2 lite) + Audio ========= */
+let flashIndex=0, face=0;
+function currentDeck(){
+  const cat=deckFilter.value;
+  let arr = state.deck.filter(c=> cat==='All'||c.cat===cat).sort((a,b)=>a.due-b.due);
+  if(state.weak.length){
+    const weakOnTop = arr.filter(c=>state.weak.includes(c.id));
+    const rest = arr.filter(c=>!state.weak.includes(c.id));
+    arr = weakOnTop.concat(rest);
+  }
+  return arr;
+}
+function showFlash(){
+  const d=currentDeck(); if(!d.length){ $('flashText').textContent='No cards'; $('flashSub').textContent=''; return }
+  const c=d[flashIndex%d.length];
+  if(face){ // Arabic
+    $('flashText').classList.add('ar','center');
+    $('flashText').textContent = c.ar;
+    $('flashSub').textContent = c.hint || c.cat || '';
+  }else{ // Spanish
+    $('flashText').classList.remove('ar','center');
+    $('flashText').textContent = c.es;
+    $('flashSub').textContent = c.cat || 'Click to reveal';
+  }
+}
+function nextFlash(reset=false){ if(reset){flashIndex=0;face=0} else {flashIndex++;face=0} showFlash() }
+$('flashWrap').addEventListener('click',()=>{ face=1-face; showFlash() });
+$('btnNext').addEventListener('click',()=> nextFlash());
+function rateCard(quality){
+  const d=currentDeck(); const c=d[flashIndex%d.length]; if(!c) return;
+  c.ef = Math.max(1.3, c.ef + (0.1 - (5-quality)*(0.08 + (5-quality)*0.02)));
+  c.interval = quality<3 ? 1 : (c.interval===0?1: Math.round(c.interval*c.ef));
+  c.due = Date.now() + c.interval*24*60*60*1000;
+  if(quality>=4){ state.weak = state.weak.filter(id=>id!==c.id) } else { if(!state.weak.includes(c.id)) state.weak.push(c.id) }
+  save(); nextFlash();
+}
+$('btnKnow').addEventListener('click',()=>{ rateCard(5); addXP(2) });
+$('btnUnsure').addEventListener('click',()=>{ rateCard(3) });
+$('speakCard').addEventListener('click',()=>{
+  const d=currentDeck(); if(!d.length) return; const c=d[flashIndex%d.length];
+  speak(c.es,'es-ES',0.98,'es');
+});
+nextFlash(true);
+
+/* ========= Add / import cards ========= */
+$('addCard').addEventListener('click',()=>{
+  const es=$('cEs').value.trim(), ar=$('cAr').value.trim(), hint=$('cHint').value.trim(), cat=$('cCat').value;
+  if(!es||!ar) return alert('Please add both Spanish and Arabic.');
+  const card={id:crypto.randomUUID(),es,ar,hint,cat,ef:2.5,interval:0,due:Date.now()};
+  state.deck.push(card); state.custom.push({es,ar,hint,cat});
+  $('cEs').value='';$('cAr').value='';$('cHint').value='';
+  save(); pickToday(); alert('Card added!');
+});
+$('exportCards').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(state.custom, null, 2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='vamos_cards_es_ar.json'; a.click(); URL.revokeObjectURL(url);
+});
+$('importCards').addEventListener('change', e=>{
+  const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{ const arr=JSON.parse(r.result); arr.forEach(({es,ar,hint,cat})=> state.deck.push({id:crypto.randomUUID(),es,ar,hint:hint||'',cat:cat||'Everyday',ef:2.5,interval:0,due:Date.now()})); save(); pickToday(); alert('Imported!') }catch{ alert('Invalid file') } };
+  r.readAsText(f);
+});
+
+/* ========= Quiz ========= */
+function renderMCQ(){
+  const pool = state.deck.sort(()=>Math.random()-0.5);
+  const prefer = pool.filter(c=>state.weak.includes(c.id));
+  const correct = (prefer[0] || pool[0]); if(!correct) return;
+  const wrongs = sample(pool.filter(x=>x.id!==correct.id),3);
+  const opts=[correct,...wrongs].sort(()=>Math.random()-0.5);
+  const wrap=$('mcq'); wrap.innerHTML='';
+  const q=document.createElement('div'); q.innerHTML=`<div class="muted">What is “<b>${correct.es}</b>” in Arabic?</div>`; wrap.appendChild(q);
+  const grid=document.createElement('div'); grid.className='options';
+  opts.forEach(o=>{
+    const b=document.createElement('button'); b.className='opt ar'; b.textContent=o.ar;
+    b.onclick=()=>{
+      if(o===correct){ b.classList.add('correct'); addXP(2); state.weak=state.weak.filter(id=>id!==correct.id) }
+      else { b.classList.add('wrong'); if(!state.weak.includes(correct.id)) state.weak.push(correct.id) }
+      save(); grid.querySelectorAll('button').forEach(x=>x.disabled=true); setTimeout(renderMCQ,900)
+    };
+    grid.appendChild(b);
+  });
+  wrap.appendChild(grid);
+  $('mcqSpeak').onclick=()=> speak(correct.es,'es-ES',1,'es');
+}
+function renderTyping(){
+  const pool = state.deck.sort(()=>Math.random()-0.5);
+  const prefer = pool.filter(c=>state.weak.includes(c.id));
+  const item = (prefer[1] || pool[1]); if(!item) return;
+  const wrap=$('typing'); wrap.innerHTML='';
+  const q=document.createElement('div'); q.innerHTML=`<div class="muted">Type the <b>Spanish</b> for: <span class="ar" style="font-weight:800">${item.ar}</span></div>`; wrap.appendChild(q);
+  const input=document.createElement('input'); input.placeholder='Type in Spanish'; wrap.appendChild(input);
+  const btn=document.createElement('button'); btn.className='button'; btn.textContent='Check'; wrap.appendChild(btn);
+  const feedback=document.createElement('div'); feedback.className='muted'; wrap.appendChild(feedback);
+  btn.onclick=()=>{
+    const val=input.value.trim().toLowerCase();
+    if(!val) return;
+    if(val===item.es.toLowerCase()){ feedback.innerHTML='<span class="badge good">Correct!</span>'; addXP(3); state.weak=state.weak.filter(id=>id!==item.id) }
+    else{ feedback.innerHTML=`<span class="badge bad">Answer:</span> ${item.es}`; if(!state.weak.includes(item.id)) state.weak.push(item.id) }
+    save(); setTimeout(renderTyping,900);
+  };
+}
+renderMCQ(); renderTyping();
+
+/* ========= Verb Drills ========= */
+const VERBS = {
+  hablar:{type:'ar'},
+  comer:{type:'er'},
+  vivir:{type:'ir'},
+  tener:{type:'irreg', pres:['tengo','tienes','tiene','tenemos','tenéis','tienen'], pret:['tuve','tuviste','tuvo','tuvimos','tuvisteis','tuvieron'], fut:['tendré','tendrás','tendrá','tendremos','tendréis','tendrán']},
+  ir:{type:'irreg', pres:['voy','vas','va','vamos','vais','van'], pret:['fui','fuiste','fue','fuimos','fuisteis','fueron'], fut:['iré','irás','irá','iremos','iréis','irán']},
+  ser:{type:'irreg', pres:['soy','eres','es','somos','sois','son'], pret:['fui','fuiste','fue','fuimos','fuisteis','fueron'], fut:['seré','serás','será','seremos','seréis','serán']},
+};
+const PRON=['yo','tú','él/ella','nosotros','vosotros','ellos'];
+function conjReg(stem,type,tense,i){
+  const p = {
+    pres:{ ar:['o','as','a','amos','áis','an'], er:['o','es','e','emos','éis','en'], ir:['o','es','e','imos','ís','en'] },
+    pret:{ ar:['é','aste','ó','amos','asteis','aron'], er:['í','iste','ió','imos','isteis','ieron'], ir:['í','iste','ió','imos','isteis','ieron'] },
+    fut:{  all:['é','ás','á','emos','éis','án'] }
+  };
+  if(tense==='fut') return stem + (type==='ar'||type==='er'||type==='ir' ? p.fut.all[i] : '');
+  const tbl = p[tense][type]; return stem + tbl[i];
+}
+function getForms(verb,tense){
+  const v=VERBS[verb];
+  if(v.type==='irreg') return (tense==='pres'?v.pres:tense==='pret'?v.pret:v.fut);
+  const stem = verb.replace(/(ar|er|ir)$/,''); const type = verb.slice(-2);
+  return PRON.map((_,i)=> conjReg(tense==='fut'?verb:stem, type, tense, i));
+}
+const verbSel=$('verbSel'); verbSel.innerHTML = Object.keys(VERBS).map(v=>`<option>${v}</option>`).join('');
+const tenseSel=$('tenseSel');
+function renderVerbRows(){
+  const tbody=$('verbRows'); tbody.innerHTML='';
+  PRON.forEach((p,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${p}</td><td><input data-i="${i}" placeholder="form"/></td><td><button class="button tiny" data-check="${i}">Check</button></td>`;
+    tbody.appendChild(tr);
+  });
+  $('verbFeedback').textContent='';
+}
+verbSel.addEventListener('change',renderVerbRows); tenseSel.addEventListener('change',renderVerbRows); renderVerbRows();
+
+$('gradeVerb').addEventListener('click',()=>{
+  const forms = getForms(verbSel.value, tenseSel.value);
+  const inputs=[...document.querySelectorAll('#verbRows input')];
+  let correct=0, wrongKeys=[];
+  inputs.forEach(inp=>{
+    const i=+inp.dataset.i; const val=inp.value.trim().toLowerCase();
+    if(val===forms[i].toLowerCase()){ inp.style.outline='2px solid var(--good)'; correct++; }
+    else{ inp.style.outline='2px solid #ef4444'; wrongKeys.push(`${verbSel.value}|${tenseSel.value}|${i}`) }
+  });
+  $('verbFeedback').innerHTML = `${correct}/6 correct`;
+  if(correct===6){ addXP(5) }
+  state.weakVerbs = [...new Set(state.weakVerbs.concat(wrongKeys))]; save(); renderWeakList();
+});
+$('clearVerb').addEventListener('click',()=>{ document.querySelectorAll('#verbRows input').forEach(i=>{i.value='';i.style.outline=''}); $('verbFeedback').textContent=''; });
+$('speakVerb').addEventListener('click',()=>{
+  const forms = getForms(verbSel.value, tenseSel.value);
+  speak(`${verbSel.value}. ${PRON.map((p,i)=>p+' '+forms[i]).join('. ')}`,'es-ES',0.95,'es');
+});
+
+function renderWeakList(){
+  const box=$('weakList'); box.innerHTML='';
+  if(!state.weakVerbs.length){ box.innerHTML='<span class="muted">All clear for now ✨</span>'; return }
+  state.weakVerbs.slice(-12).forEach(k=>{
+    const [v,t,i]=k.split('|'); const form=getForms(v,t)[+i];
+    const el=document.createElement('div'); el.className='row'; el.style.justifyContent='space-between';
+    el.innerHTML=`<div>${v} (${t}) — <b>${PRON[i]}</b> = ${form}</div><button class="button" onclick="speak('${form}','es-ES',1,'es')">🔊</button>`;
+    box.appendChild(el);
+  });
+}
+renderWeakList();
+
+/* ========= Speaking mode ========= */
+const SPEAK_TARGETS = [
+  '¿Dónde está el baño?',
+  'Quiero reservar una mesa para dos.',
+  '¿Puedes ayudarme, por favor?',
+  'Mañana tengo una reunión importante.',
+  'Necesito ir a la farmacia.',
+  'Me gustaría un café con leche.'
+];
+let currentTarget = SPEAK_TARGETS[Math.floor(Math.random()*SPEAK_TARGETS.length)];
+$('speakTarget').textContent = 'Target: ' + currentTarget;
+$('sayTarget').onclick = ()=> speak(currentTarget,'es-ES',1,'es');
+
+function sim(a,b){
+  a=a.toLowerCase(); b=b.toLowerCase();
+  const dp=[...Array(a.length+1)].map(()=>Array(b.length+1).fill(0));
+  for(let i=0;i<=a.length;i++) dp[i][0]=i; for(let j=0;j<=b.length;j++) dp[0][j]=j;
+  for(let i=1;i<=a.length;i++){
+    for(let j=1;j<=b.length;j++){
+      dp[i][j]=Math.min(dp[i-1][j]+1, dp[i][j-1]+1, dp[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
+    }
+  }
+  const dist=dp[a.length][b.length]; const maxLen=Math.max(a.length,b.length)||1;
+  return Math.round(100*(1-dist/maxLen));
+}
+
+let rec=null, recognizing=false;
+function setupRec(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR) return null;
+  const r = new SR(); r.lang='es-ES'; r.interimResults=false; r.maxAlternatives=1; return r;
+}
+rec = setupRec();
+
+$('recBtn').onclick = ()=>{
+  if(!rec){ alert('Speech recognition not supported in this browser. Try Chrome/Edge.'); return }
+  if(recognizing){ rec.stop(); return }
+  recognizing=true; $('recStatus').style.display='inline-block'; rec.start();
+};
+if(rec){
+  rec.onresult = (e)=>{
+    recognizing=false; $('recStatus').style.display='none';
+    const heard = e.results[0][0].transcript || '';
+    $('speakHeard').textContent = 'You said: ' + heard;
+    const score = sim(heard, currentTarget);
+    $('speakScore').innerHTML = `Similarity: <b>${score}%</b> ${score>=80? '✅ Great!': score>=60? '👍 Not bad': '🛠 Keep practicing'}`;
+    if(score>=80) addXP(5);
+    currentTarget = SPEAK_TARGETS[Math.floor(Math.random()*SPEAK_TARGETS.length)];
+    $('speakTarget').textContent = 'Target: ' + currentTarget;
+  };
+  rec.onerror = ()=>{ recognizing=false; $('recStatus').style.display='none'; };
+}
+
+/* ========= Progress ========= */
+function renderProgress(){
+  $('pLevel').textContent=state.profile.level;
+  $('pXP').textContent=state.profile.xp;
+  $('pCards').textContent=state.deck.length;
+  const h=$('heat'); h.innerHTML='';
+  const map=new Map(state.history.map(x=>[x.date,x.xp]));
+  for(let i=27;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const key=d.toISOString().slice(0,10);
+    const dot=document.createElement('div'); dot.className='dot'; if((map.get(key)||0)>0) dot.classList.add('on'); h.appendChild(dot);
+  }
+}
+renderProgress();
+
+/* ========= Settings ========= */
+$('goalInput').value=state.profile.goal;
+$('saveGoal').addEventListener('click',()=>{ const g=parseInt($('goalInput').value||'20',10); state.profile.goal=Math.max(5,g); save(); renderHeader(); alert('Saved!') });
+$('exportState').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='vamos_progress_es_ar.json'; a.click(); URL.revokeObjectURL(url);
+});
+$('importState').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{ const data=JSON.parse(r.result); if(data?.profile&&data?.deck){ state=data; save(); renderHeader(); pickToday(); renderMCQ(); renderTyping(); renderProgress(); renderWeakList(); renderVerbRows(); alert('Progress imported!') } else throw new Error(); }catch{ alert('Invalid file') } };
+  r.readAsText(f);
+});
+</script>
+</body>
+</html>
